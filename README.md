@@ -12,6 +12,8 @@ ICISTS Application Management System to submit and manage applications.
 
 ## Built With
 * [Alpine Linux](https://alpinelinux.org/) : The Operating System. v.3.6
+* [Docker](https://www.docker.com/) : v.17.09.0-ce
+* [Docker Compose](https://docs.docker.com/compose/) : v.3
 * [Python](https://www.python.org/) : v.3.6.3
 * [Django](http://www.dropwizard.io/1.0.2/docs/) - The web framework
 

@@ -25,7 +25,10 @@ SECRET_KEY = '$ddcywfrdw451xk3#4f4$(c&$m)b4r+iga#pa=0r56s-*yip44'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+        'localhost',
+        '.icists.org'
+        ]
 
 
 # Application definition
