@@ -3,7 +3,9 @@ version: '3'
 services:
   django:
     env_file:
-      - db.env
+      - environments/db.env
+      - environments/oauth.env
+      - environments/entrypoint.env
     restart: always
     build:
       context: ./django
@@ -12,8 +14,6 @@ services:
       - ./django:/code
     environment:
       DATABASE_URL: 'mysql'
-      DJANGO_MANAGEPY_MIGRATE: 'on'
-      DJANGO_MANAGEPY_COLLECTSTATIC: 'on'
     ports:
       - "8000:8000"
     expose:
@@ -23,7 +23,7 @@ services:
 
   mysql:
     env_file:
-      - db.env
+      - environments/db.env
     restart: always
     build:
       context: ./mysql
