@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  django:
+    restart: always
+    build:
+      context: ./django
+    env_file:
+      - db.env
+    environment:
+      DATABASE_URL: 'mysql'
+      DJANGO_MANAGEPY_MIGRATE: 'on'
+    ports:
+      - "8000:8000"
+    expose:
+      - "8000"
+    depends_on:
+      - mysql
+
+  mysql:
+    restart: always
+    image: mysql/mysql-server:8.0
+    env_file:
+      - db.env
+    volumes:
+      - mysql-persistent-volume:/var/lib/mysql
+    expose:
+      - "3306"
+
+volumes:
+  mysql-persistent-volume:
