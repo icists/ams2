@@ -33,11 +33,7 @@ RUN set -ex \
 # uWSGI will listen on this port
 EXPOSE 8000
 
-# Add any custom, static environment variables needed by Django or your settings file here:
-# ENV DJANGO_SETTINGS_MODULE=ams2.settings.deploy
-
-# Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
-# RUN DATABASE_URL=none /venv/bin/python manage.py collectstatic --noinput
+VOLUME ["/code"]
 
 # Start uWSGI
 CMD ["/venv/bin/uwsgi", "--ini", "uwsgi.ini"]

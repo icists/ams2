@@ -7,9 +7,13 @@ services:
     restart: always
     build:
       context: ./django
+    entrypoint: /code/docker-entrypoint.sh
+    volumes:
+      - ./django:/code
     environment:
       DATABASE_URL: 'mysql'
       DJANGO_MANAGEPY_MIGRATE: 'on'
+      DJANGO_MANAGEPY_COLLECTSTATIC: 'on'
     ports:
       - "8000:8000"
     expose:
