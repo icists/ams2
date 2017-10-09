@@ -1,1 +1,1 @@
-docker-compose up --build -d --force-recreate django
+docker-compose up -d --force-recreate django
