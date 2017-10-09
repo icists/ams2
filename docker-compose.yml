@@ -2,11 +2,11 @@ version: '3'
 
 services:
   django:
+    env_file:
+      - db.env
     restart: always
     build:
       context: ./django
-    env_file:
-      - db.env
     environment:
       DATABASE_URL: 'mysql'
       DJANGO_MANAGEPY_MIGRATE: 'on'
@@ -18,10 +18,11 @@ services:
       - mysql
 
   mysql:
-    restart: always
-    image: mysql/mysql-server:8.0
     env_file:
       - db.env
+    restart: always
+    build:
+      context: ./mysql
     volumes:
       - mysql-persistent-volume:/var/lib/mysql
     expose:
