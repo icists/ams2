@@ -4,24 +4,33 @@ ICISTS Application Management System to submit and manage applications.
 
 ## Deployment
 
-아래 command를 통해 Docker Image를 build한다.
-`docker build -t ams2 .`
+필요한 command는 `scripts` 디렉토리 내에 정의되어 있습니다.
 
-아래 command를 통해 Docker Container를 실행 시킨다.
-`./docker_run.sh`
+`./scripts/deploy_docker.sh`
+: 최초 설치 시 Image를 Build하고 Container를 실행 시킵니다.
+
+`./scripts/shell_docker.sh`
+: Container 실행 시 shell에 접속합니다.
+
+`./scripts/migrate.sh`
+: migration 실행.
+
+`./scripts/stop_all_containers.sh`
+: Container 종료.
 
 ## Built With
 * [Alpine Linux](https://alpinelinux.org/) : The Operating System. v.3.6
 * [Docker](https://www.docker.com/) : v.17.09.0-ce
 * [Docker Compose](https://docs.docker.com/compose/) : v.3
 * [Python](https://www.python.org/) : v.3.6.3
-* [Django](http://www.dropwizard.io/1.0.2/docs/) - The web framework
+* [Django](https://docs.djangoproject.com/en/1.11/releases/1.11/) - v.1.11
+* [MySQL](https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-3.html) - v.8.0.3
 
 ## Authors
 
-* **Park Junwoo** - *Initial work & maintance* - [zoonoo](https://github.com/)
+* **Park Junwoo** - *Initial work & maintance* - [zoonoo](https://github.com/zoonoo)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/icists/ams2/contributors) who participated in this project.
 
 ## License
 
