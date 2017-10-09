@@ -3,10 +3,10 @@ version: '3'
 services:
   django:
     env_file:
-      - environments/db.env
+      - environments/mysql.env
       - environments/oauth.env
-      - environments/entrypoint.env
       - environments/settings.env
+      - environments/secret.env
     restart: always
     build:
       context: ./django
@@ -24,7 +24,7 @@ services:
 
   mysql:
     env_file:
-      - environments/db.env
+      - environments/mysql.env
     restart: always
     build:
       context: ./mysql
