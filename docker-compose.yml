@@ -6,6 +6,7 @@ services:
       - environments/db.env
       - environments/oauth.env
       - environments/entrypoint.env
+      - environments/settings.env
     restart: always
     build:
       context: ./django
