@@ -25,9 +25,9 @@ services:
   mysql:
     env_file:
       - environments/mysql.env
+      - environments/secret.env
     restart: always
-    build:
-      context: ./mysql
+    image: mysql/mysql-server:8.0
     volumes:
       - mysql-persistent-volume:/var/lib/mysql
     expose:
