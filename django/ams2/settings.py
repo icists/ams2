@@ -106,11 +106,11 @@ WSGI_APPLICATION = 'ams2.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-if 'MYSQL_DB' in os.environ:
+if 'MYSQL_DATABASE' in os.environ:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ['MYSQL_DB'],
+            'NAME': os.environ['MYSQL_DATABASE'],
             'USER': os.environ['MYSQL_USER'],
             'PASSWORD': os.environ['MYSQL_PASSWORD'],
             'HOST': os.environ['DATABASE_URL'],
