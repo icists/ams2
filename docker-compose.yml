@@ -13,6 +13,7 @@ services:
     entrypoint: /code/docker-entrypoint.sh
     volumes:
       - ./django:/code
+      - static:/static
     environment:
       DATABASE_URL: 'mysql'
     ports:
@@ -33,5 +34,17 @@ services:
     expose:
       - "3306"
 
+  nginx:
+    restart: always
+    build: ./nginx/
+    ports:
+      - "80:80"
+    volumes:
+      - static:/static
+    links:
+      - django:django
+
+
 volumes:
   mysql-persistent-volume:
+  static:
