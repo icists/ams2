@@ -2,8 +2,8 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 from django.utils import timezone
-from phonenumber_field.modelfields import PhoneNumberField
 from django_countries.fields import CountryField
+from phonenumber_field.modelfields import PhoneNumberField
 
 GENDER_CHOICES = [
     ('M', 'Male'),
@@ -30,7 +30,7 @@ class User(AbstractBaseUser):
     nationality = CountryField()
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     phone_number = PhoneNumberField()
-    university = models.ForeignKey(School)
+    school = models.ForeignKey(School)
 
     objects = UserManager()
 
