@@ -45,7 +45,13 @@ ALL_AUTH_APPS = [
     'allauth.socialaccount',
     # ... include the providers you want to enable:
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
 ]
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 PREREQ_APPS = ALL_AUTH_APPS + [
     'django.contrib.admin',
@@ -56,6 +62,7 @@ PREREQ_APPS = ALL_AUTH_APPS + [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'phonenumber_field',
+    'django_countries',
 ]
 
 PROJECT_APPS = [
