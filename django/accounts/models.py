@@ -1,5 +1,5 @@
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django_countries.fields import CountryField
@@ -41,7 +41,7 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, True, True, **extra_fields)
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField('staff status', default=False,
                                    help_text='Designates whether the user can log into this admin site.')
     is_active = models.BooleanField('active', default=True,
@@ -53,13 +53,13 @@ class User(AbstractBaseUser):
                               error_messages={
                                   'unique': 'A user with that username already exists.',
                               })
-    first_name = models.CharField('first name', max_length=30, blank=True)
-    last_name = models.CharField('last name', max_length=30, blank=True)
-    birthday = models.DateField()
-    nationality = CountryField()
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
-    phone_number = PhoneNumberField()
-    school = models.ForeignKey(School)
+    first_name = models.CharField('first name', max_length=30)
+    last_name = models.CharField('last name', max_length=30)
+    birthday = models.DateField(null=True)
+    nationality = CountryField(null=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True)
+    phone_number = PhoneNumberField(null=True)
+    school = models.ForeignKey(School, null=True)
 
     objects = UserManager()
 
