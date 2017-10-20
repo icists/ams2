@@ -33,9 +33,9 @@ SECRET_KEY = '$ddcywfrdw451xk3#4f4$(c&$m)b4r+iga#pa=0r56s-*yip44'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-        'localhost',
-        '.icists.org'
-        ]
+    'localhost',
+    '.icists.org'
+]
 
 # Application definition
 
@@ -45,9 +45,15 @@ ALL_AUTH_APPS = [
     'allauth.socialaccount',
     # ... include the providers you want to enable:
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
 ]
 
-PREREQ_APPS = [
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+PREREQ_APPS = ALL_AUTH_APPS + [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,8 +61,9 @@ PREREQ_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-] + ALL_AUTH_APPS
-
+    'phonenumber_field',
+    'django_countries',
+]
 
 PROJECT_APPS = [
     'accounts',
@@ -100,9 +107,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-
 WSGI_APPLICATION = 'ams2.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -125,8 +130,6 @@ else:
         }
     }
 
-
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -145,6 +148,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'accounts.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -158,7 +162,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
