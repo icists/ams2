@@ -7,7 +7,7 @@ ICISTS Application Management System to submit and manage applications.
 필요한 command는 `scripts` 디렉토리 내에 정의되어 있습니다.
 
 `./scripts/deploy_docker.sh`
-: 최초 설치 시 Image를 Build하고 Container를 실행 시킵니다.
+: 최초 설치 시 image를 build하고 container를 실행 시킵니다.
 
 `./scripts/shell_docker.sh`
 : Container 실행 시 shell에 접속합니다.
@@ -19,7 +19,8 @@ ICISTS Application Management System to submit and manage applications.
 : Container 종료.
 
 ##### 중요
-실행에 필요하지만 보안상 이 repository에 포함 시키지 않은 파일이 몇개 존재합니다. 아래 파일은 개발 환경 세팅하실 때 별도로 요청해 주세요.
+실행에 필요하지만 보안상 이 repository에 포함 시키지 않은 파일이 몇 개 존재합니다.
+아래 파일은 개발 환경 세팅하실 때 별도로 요청해 주세요.
  - `environments/secret.env`
  - `nginx/certs/`
 
@@ -34,7 +35,8 @@ ICISTS Application Management System to submit and manage applications.
 
 ## Authors
 
-* **Park Junwoo** - *Initial work & maintance* - [zoonoo](https://github.com/zoonoo)
+* **Park Junwoo** - *Initial work & maintenance* - [zoonoo](https://github.com/zoonoo)
+* **Gunwoo Kim** - *Core Logic* - [gunwooterry](https://github.com/gunwooterry)
 
 See also the list of [contributors](https://github.com/icists/ams2/contributors) who participated in this project.
 
