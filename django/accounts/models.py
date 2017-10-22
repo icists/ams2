@@ -7,12 +7,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 from policy.models import Room
 
-GENDER_CHOICES = [
-    ('M', 'Male'),
-    ('F', 'Female'),
-    ('O', 'Others'),
-]
-
 
 class School(models.Model):
     name = models.CharField(max_length=100)
@@ -44,6 +38,12 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    GENDER_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Others'),
+    ]
+
     is_staff = models.BooleanField('staff status', default=False,
                                    help_text='Designates whether the user can log into this admin site.')
     is_active = models.BooleanField('active', default=True,
@@ -61,7 +61,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     nationality = CountryField(null=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True)
     phone_number = PhoneNumberField(null=True)
-    school = models.ForeignKey(School, null=True)
+    school = models.ForeignKey(School, blank=True, null=True)
 
     assigned_room = models.ForeignKey(Room, related_name='users', blank=True, null=True)
 
