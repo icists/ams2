@@ -1,5 +1,6 @@
-from django.db import models
 from django.core.exceptions import ValidationError
+from django.db import models
+from solo.models import SingletonModel
 
 
 def swift_code_validator(code):
@@ -8,7 +9,7 @@ def swift_code_validator(code):
         raise ValidationError('Swift code must have 8 or 11 characters.')
 
 
-class Stage(models.Model):
+class Stage(SingletonModel):
     STAGES = [
         ('BE', 'Before Early'),
         ('EO', 'Early Open'),
@@ -19,11 +20,10 @@ class Stage(models.Model):
         ('LC', 'Late Closed'),
     ]
 
-    name = models.CharField(max_length=2, choices=STAGES)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    current_stage = models.CharField(max_length=2, choices=STAGES)
 
-    # TODO: Check conflict between stages
+    class Meta:
+        verbose_name = 'application stage'
 
 
 class Price(models.Model):
@@ -51,12 +51,12 @@ class AccommodationOption(models.Model):
         return self.capacity * self.num_rooms
 
 
-class PaymentInfo(models.Model):
+class PaymentInfo(SingletonModel):
     bank_name = models.CharField(max_length=100)
     bank_branch = models.CharField(max_length=100)
     account_number = models.CharField(max_length=30)
     recipient = models.CharField(max_length=50)
     swift_code = models.CharField(max_length=11, validators=[swift_code_validator])
 
-    def __str__(self):
-        return '{} ({})'.format(self.recipient, self.bank_name)
+    class Meta:
+        verbose_name = 'payment information'
