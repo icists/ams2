@@ -63,10 +63,12 @@ PREREQ_APPS = ALL_AUTH_APPS + [
     'django.contrib.sites',
     'phonenumber_field',
     'django_countries',
+    'solo',
 ]
 
 PROJECT_APPS = [
     'accounts',
+    'policy',
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
