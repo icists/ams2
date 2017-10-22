@@ -5,11 +5,11 @@ from .models import Stage, Price, AccommodationOption, PaymentInfo
 
 
 class PriceAdmin(admin.ModelAdmin):
-    list_display = ('description', 'krw', 'usd')
+    list_display = ('description', 'price_krw', 'price_usd')
 
 
 class AccommodationOptionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'capacity', 'num_rooms', 'price_krw', 'price_usd')
+    list_display = ('description', 'capacity', 'num_rooms', 'price_krw', 'price_usd')
 
 
 admin.site.register(Price, PriceAdmin)

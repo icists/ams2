@@ -26,26 +26,26 @@ class Stage(SingletonModel):
         verbose_name = 'application stage'
 
 
-class Price(models.Model):
+class AbstractOption(models.Model):
     code = models.CharField(max_length=30, unique=True)
     description = models.CharField(max_length=100)
-    krw = models.PositiveIntegerField(verbose_name='in KRW')
-    usd = models.PositiveIntegerField(verbose_name='in USD')
-
-    def __str__(self):
-        return self.description
-
-
-class AccommodationOption(models.Model):
-    name = models.CharField(max_length=50)
-    description = models.CharField(max_length=100)
-    capacity = models.PositiveSmallIntegerField()
-    num_rooms = models.PositiveSmallIntegerField(verbose_name='number of rooms')
     price_krw = models.PositiveIntegerField(verbose_name='price in KRW')
     price_usd = models.PositiveIntegerField(verbose_name='price in USD')
 
     def __str__(self):
-        return '{} (Capacity: {})'.format(self.name, self.capacity)
+        return self.description
+
+    class Meta:
+        abstract = True
+
+
+class Price(AbstractOption):
+    pass
+
+
+class AccommodationOption(AbstractOption):
+    capacity = models.PositiveSmallIntegerField()
+    num_rooms = models.PositiveSmallIntegerField(verbose_name='number of rooms')
 
     def get_total_capacity(self):
         return self.capacity * self.num_rooms
