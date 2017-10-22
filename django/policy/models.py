@@ -51,6 +51,27 @@ class AccommodationOption(AbstractOption):
         return self.capacity * self.num_rooms
 
 
+class Room(models.Model):
+    GENDER_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Others'),
+    ]
+
+    type = models.ForeignKey(AccommodationOption)
+    number = models.PositiveSmallIntegerField()
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+
+    def __str__(self):
+        return '{} #{} ({})'.format(self.type.description, self.number, self.gender)
+
+    def occupied_seats(self):
+        return self.users.count()
+
+    def full_capacity(self):
+        return self.type.capacity
+
+
 class PaymentInfo(SingletonModel):
     bank_name = models.CharField(max_length=100)
     bank_branch = models.CharField(max_length=100)

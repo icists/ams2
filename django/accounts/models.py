@@ -5,6 +5,8 @@ from django.utils import timezone
 from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
 
+from policy.models import Room
+
 GENDER_CHOICES = [
     ('M', 'Male'),
     ('F', 'Female'),
@@ -60,6 +62,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True)
     phone_number = PhoneNumberField(null=True)
     school = models.ForeignKey(School, null=True)
+
+    assigned_room = models.ForeignKey(Room, related_name='users', blank=True, null=True)
 
     objects = UserManager()
 
