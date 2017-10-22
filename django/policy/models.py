@@ -11,11 +11,11 @@ def swift_code_validator(code):
 class Stage(models.Model):
     STAGES = [
         ('BE', 'Before Early'),
-        ('ES', 'Early'),
+        ('EO', 'Early Open'),
         ('EC', 'Early Closed'),
-        ('RS', 'Regular'),
+        ('RO', 'Regular Open'),
         ('RC', 'Regular Closed'),
-        ('LS', 'Late'),
+        ('LO', 'Late Open'),
         ('LC', 'Late Closed'),
     ]
 
