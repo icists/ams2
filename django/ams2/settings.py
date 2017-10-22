@@ -67,6 +67,7 @@ PREREQ_APPS = ALL_AUTH_APPS + [
 
 PROJECT_APPS = [
     'accounts',
+    'policy',
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
