@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from solo.models import SingletonModel
+from djmoney.models.fields import MoneyField
 
 
 def swift_code_validator(code):
@@ -32,8 +33,8 @@ class Stage(SingletonModel):
 class AbstractOption(models.Model):
     code = models.CharField(max_length=30, unique=True)
     description = models.CharField(max_length=100)
-    price_krw = models.PositiveIntegerField('price in KRW')
-    price_usd = models.PositiveIntegerField('price in USD')
+    price_krw = MoneyField(max_digits=7, decimal_places=0, default=0, default_currency='KRW')
+    price_usd = MoneyField(max_digits=4, decimal_places=0, default=0, default_currency='USD')
 
     def __str__(self):
         return self.description
