@@ -11,17 +11,19 @@ def swift_code_validator(code):
 
 
 class Stage(SingletonModel):
+    BEFORE_EARLY, EARLY, EARLY_CLOSED = 'BE', 'E', 'EC'
+    REGULAR, REGULAR_CLOSED, LATE, LATE_CLOSED = 'R', 'RC', 'L', 'LC'
     STAGES = [
-        ('BE', 'Before Early'),
-        ('E', 'Early'),
-        ('EC', 'Early Closed'),
-        ('R', 'Regular'),
-        ('RC', 'Regular Closed'),
-        ('L', 'Late'),
-        ('LC', 'Late Closed'),
+        (BEFORE_EARLY, 'Before Early'),
+        (EARLY, 'Early'),
+        (EARLY_CLOSED, 'Early Closed'),
+        (REGULAR, 'Regular'),
+        (REGULAR_CLOSED, 'Regular Closed'),
+        (LATE, 'Late'),
+        (LATE_CLOSED, 'Late Closed'),
     ]
 
-    current_stage = models.CharField(max_length=2, choices=STAGES)
+    current_stage = models.CharField(max_length=2, choices=STAGES, default=BEFORE_EARLY)
 
     def get_current_stage(self):
         return self.current_stage
@@ -88,7 +90,7 @@ class PaymentInfo(SingletonModel):
 
 
 class Configuration(SingletonModel):
-    min_group_size = models.PositiveSmallIntegerField('minimum group size')
+    min_group_size = models.PositiveSmallIntegerField('minimum group size', default=0)
 
     class Meta:
         verbose_name = 'other configuration'

@@ -1,5 +1,5 @@
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group
 from django.db import models
 from django.utils import timezone
 from django_countries.fields import CountryField
@@ -14,6 +14,10 @@ class School(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class UserGroup(Group):
+    pass
 
 
 class UserManager(BaseUserManager):
@@ -47,6 +51,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField('active', default=True,
                                     help_text='Designates whether this user should be treated as active. '
                                               'Unselect this instead of deleting accounts.')
+    groups = models.ManyToManyField(UserGroup, verbose_name='groups',
+                                    blank=True, help_text='The groups this user belongs to. A user will '
+                                                          'get all permissions granted to each of '
+                                                          'their groups.',
+                                    related_name='user_set', related_query_name='user')
     date_joined = models.DateTimeField('date joined', default=timezone.now)
 
     email = models.EmailField('email address', unique=True,
