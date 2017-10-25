@@ -64,11 +64,13 @@ PREREQ_APPS = ALL_AUTH_APPS + [
     'phonenumber_field',
     'django_countries',
     'solo',
+    'djmoney',
 ]
 
 PROJECT_APPS = [
     'accounts',
     'policy',
+    'registration',
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
@@ -110,6 +112,9 @@ AUTHENTICATION_BACKENDS = (
 )
 
 WSGI_APPLICATION = 'ams2.wsgi.application'
+
+CURRENCIES = ['KRW', 'USD']
+CURRENCY_CHOICES = [('KRW', 'KRW'), ('USD', 'USD')]
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases

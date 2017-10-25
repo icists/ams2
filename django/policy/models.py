@@ -12,15 +12,18 @@ def swift_code_validator(code):
 class Stage(SingletonModel):
     STAGES = [
         ('BE', 'Before Early'),
-        ('EO', 'Early Open'),
+        ('E', 'Early'),
         ('EC', 'Early Closed'),
-        ('RO', 'Regular Open'),
+        ('R', 'Regular'),
         ('RC', 'Regular Closed'),
-        ('LO', 'Late Open'),
+        ('L', 'Late'),
         ('LC', 'Late Closed'),
     ]
 
     current_stage = models.CharField(max_length=2, choices=STAGES)
+
+    def get_current_stage(self):
+        return self.current_stage
 
     class Meta:
         verbose_name = 'application stage'
@@ -29,8 +32,8 @@ class Stage(SingletonModel):
 class AbstractOption(models.Model):
     code = models.CharField(max_length=30, unique=True)
     description = models.CharField(max_length=100)
-    price_krw = models.PositiveIntegerField(verbose_name='price in KRW')
-    price_usd = models.PositiveIntegerField(verbose_name='price in USD')
+    price_krw = models.PositiveIntegerField('price in KRW')
+    price_usd = models.PositiveIntegerField('price in USD')
 
     def __str__(self):
         return self.description
@@ -45,7 +48,7 @@ class Price(AbstractOption):
 
 class AccommodationOption(AbstractOption):
     capacity = models.PositiveSmallIntegerField()
-    num_rooms = models.PositiveSmallIntegerField(verbose_name='number of rooms')
+    num_rooms = models.PositiveSmallIntegerField('number of rooms')
 
     def get_total_capacity(self):
         return self.capacity * self.num_rooms
@@ -81,3 +84,29 @@ class PaymentInfo(SingletonModel):
 
     class Meta:
         verbose_name = 'payment information'
+
+
+class Configuration(SingletonModel):
+    min_group_size = models.PositiveSmallIntegerField('minimum group size')
+
+    class Meta:
+        verbose_name = 'other configuration'
+
+
+class Topic(models.Model):
+    number = models.PositiveSmallIntegerField()
+    title = models.CharField(max_length=200)
+
+    def __str__(self):
+        return '{}. {}'.format(self.number, self.title)
+
+    class Meta:
+        abstract = True
+
+
+class EssayTopic(Topic):
+    description = models.TextField()
+
+
+class ProjectTopic(Topic):
+    pass
