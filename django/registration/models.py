@@ -1,9 +1,10 @@
 from django.db import models
 from djmoney.models.fields import MoneyField
+from djmoney.money import Money
 
 from accounts.models import User
 from ams2.settings import CURRENCY_CHOICES
-from policy.models import AccommodationOption, EssayTopic, ProjectTopic, Configuration
+from policy.models import AccommodationOption, EssayTopic, ProjectTopic, Configuration, Price
 
 EARLY, REGULAR, LATE = 'E', 'R', 'L'
 APP_STAGES = [
@@ -55,7 +56,8 @@ class Application(models.Model):
 
     def group_discount(self):
         min_group_size = Configuration.objects.get().min_group_size
-        return self.group.applications.count() >= min_group_size
+        accepted_peers = self.group.applications.filter(screening_result=ACCEPTED)
+        return accepted_peers.count() >= min_group_size
 
 
 class Order(models.Model):
@@ -73,11 +75,46 @@ class Order(models.Model):
     def __str__(self):
         return self.user.get_full_name()
 
-    def total(self):
-        price = 0
-        application = Application.objects.get(user=self.user, screening_result=ACCEPTED)
-        # TODO
-        return price
+    def total_cost(self):
+        cost = Money(0, self.preferred_currency)
+        prices = {}
+        price_objects = Price.objects.all()
+        for obj in price_objects:
+            if self.preferred_currency == 'KRW':
+                prices[obj.code] = obj.price_krw.amount
+            elif self.preferred_currency == 'USD':
+                prices[obj.code] = obj.price_usd.amount
+
+        try:
+            application = Application.objects.get(user=self.user, screening_result=ACCEPTED)
+        except Application.DoesNotExist:
+            application = None
+
+        if application is None:
+            pass
+        elif application.stage == EARLY:
+            cost.amount += prices.get('early', 0)
+        elif application.stage == REGULAR:
+            cost.amount += prices.get('regular', 0)
+        elif application.stage == LATE:
+            cost.amount += prices.get('late', 0)
+
+        if self.breakfast_option:
+            cost.amount += prices.get('breakfast', 0)
+        if self.pre_option:
+            cost.amount += prices.get('pre', 0)
+        if self.post_option:
+            cost.amount += prices.get('post', 0)
+
+        return cost
 
     def payment_status(self):
-        pass
+        unpaid_amount = self.total_cost().amount - self.paid_amount.amount
+        if unpaid_amount == 0:
+            return 'Clear'
+        elif unpaid_amount > 0:
+            unpaid = Money(unpaid_amount, self.preferred_currency)
+            return 'Paid less ({})'.format(str(unpaid))
+        else:
+            overpaid = Money(-unpaid_amount, self.preferred_currency)
+            return 'Paid more ({})'.format(str(overpaid))

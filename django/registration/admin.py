@@ -14,7 +14,7 @@ class ApplicationAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('user', 'accommodation', 'breakfast_option', 'pre_option', 'post_option',
-                    'paid_amount', 'total', 'payment_status')
+                    'paid_amount', 'total_cost', 'payment_status')
 
 
 admin.site.register(Group, GroupAdmin)

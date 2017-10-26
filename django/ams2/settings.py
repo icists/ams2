@@ -115,6 +115,7 @@ WSGI_APPLICATION = 'ams2.wsgi.application'
 
 CURRENCIES = ['KRW', 'USD']
 CURRENCY_CHOICES = [('KRW', 'KRW'), ('USD', 'USD')]
+CURRENCY_DECIMAL_PLACES = 0
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
