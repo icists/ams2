@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.exceptions import ObjectDoesNotExist
+from django.utils.deconstruct import deconstructible
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
 
@@ -67,46 +69,38 @@ class Order(models.Model):
 
     accommodation = models.ForeignKey(AccommodationOption, related_name='orders')
     dietary_preferences = models.CharField(max_length=100, blank=True, null=True)
-
-    breakfast_option = models.BooleanField(default=False)
-    pre_option = models.BooleanField('pre-conference banquet', default=False)
-    post_option = models.BooleanField('post-conference tour', default=False)
+    options = models.ManyToManyField(Price, related_name='orders', blank=True)
 
     def __str__(self):
         return self.user.get_full_name()
 
     def total_cost(self):
         cost = Money(0, self.preferred_currency)
-        prices = {}
-        price_objects = Price.objects.all()
-        for obj in price_objects:
-            if self.preferred_currency == 'KRW':
-                prices[obj.code] = obj.price_krw.amount
-            elif self.preferred_currency == 'USD':
-                prices[obj.code] = obj.price_usd.amount
 
-        try:
-            application = Application.objects.get(user=self.user, screening_result=ACCEPTED)
-        except Application.DoesNotExist:
-            application = None
-
-        if application is None:
-            pass
-        elif application.stage == EARLY:
-            cost.amount += prices.get('early', 0)
-        elif application.stage == REGULAR:
-            cost.amount += prices.get('regular', 0)
-        elif application.stage == LATE:
-            cost.amount += prices.get('late', 0)
-
-        if self.breakfast_option:
-            cost.amount += prices.get('breakfast', 0)
-        if self.pre_option:
-            cost.amount += prices.get('pre', 0)
-        if self.post_option:
-            cost.amount += prices.get('post', 0)
+        if self.preferred_currency == 'KRW':
+            cost.amount += sum([option.price_krw.amount for option in self.options.all()])
+        elif self.preferred_currency == 'USD':
+            cost.amount += sum([option.price_usd.amount for option in self.options.all()])
 
         return cost
+
+    def option_checker(self, code):
+        try:
+            return self.options.get(code=code) is not None
+        except ObjectDoesNotExist:
+            return False
+
+    def breakfast_option(self):
+        return self.option_checker('breakfast')
+    breakfast_option.boolean = True
+
+    def pre_option(self):
+        return self.option_checker('pre')
+    pre_option.boolean = True
+
+    def post_option(self):
+        return self.option_checker('post')
+    post_option.boolean = True
 
     def payment_status(self):
         unpaid_amount = self.total_cost().amount - self.paid_amount.amount
