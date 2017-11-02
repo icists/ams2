@@ -1,13 +1,24 @@
 from django.core.exceptions import ValidationError
 from django.db import models
-from solo.models import SingletonModel
+from django.utils.deconstruct import deconstructible
 from djmoney.models.fields import MoneyField
+from solo.models import SingletonModel
 
 
 def swift_code_validator(code):
     code_length = len(code)
     if code_length not in [8, 11]:
         raise ValidationError('Swift code must have 8 or 11 characters.')
+
+
+@deconstructible
+class CurrencyValidator(object):
+    def __init__(self, currency):
+        self.currency = currency
+
+    def __call__(self, money):
+        if money.currency.code != self.currency:
+            raise ValidationError('Please check the currency.')
 
 
 class Stage(SingletonModel):
@@ -35,8 +46,10 @@ class Stage(SingletonModel):
 class AbstractOption(models.Model):
     code = models.CharField(max_length=30, unique=True)
     description = models.CharField(max_length=100)
-    price_krw = MoneyField(max_digits=7, decimal_places=0, default=0, default_currency='KRW')
-    price_usd = MoneyField(max_digits=4, decimal_places=0, default=0, default_currency='USD')
+    price_krw = MoneyField('price in KRW', max_digits=7, decimal_places=0, default=0, default_currency='KRW',
+                           validators=[CurrencyValidator('KRW')])
+    price_usd = MoneyField('price in USD', max_digits=4, decimal_places=0, default=0, default_currency='USD',
+                           validators=[CurrencyValidator('USD')])
 
     def __str__(self):
         return self.description
@@ -93,7 +106,7 @@ class Configuration(SingletonModel):
     min_group_size = models.PositiveSmallIntegerField('minimum group size', default=0)
 
     class Meta:
-        verbose_name = 'other configuration'
+        verbose_name = 'other configurations'
 
 
 class Topic(models.Model):
