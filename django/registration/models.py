@@ -1,6 +1,5 @@
-from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
-from django.utils.deconstruct import deconstructible
+from django.db import models
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
 
@@ -24,7 +23,10 @@ SCREENING_RESULTS = [
 
 
 class Group(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(
+        max_length=50,
+        unique=True,
+    )
 
     def __str__(self):
         return self.name
@@ -37,21 +39,54 @@ class Group(models.Model):
 
 
 class Application(models.Model):
-    user = models.ForeignKey(User, related_name='applications')
-    stage = models.CharField(max_length=1, choices=APP_STAGES)
-    screening_result = models.CharField(max_length=1, choices=SCREENING_RESULTS, default=PENDING)
-    disclose_result = models.BooleanField(default=False)
+    user = models.ForeignKey(
+        to=User,
+        related_name='applications',
+    )
+    stage = models.CharField(
+        max_length=1,
+        choices=APP_STAGES,
+    )
+    screening_result = models.CharField(
+        max_length=1,
+        choices=SCREENING_RESULTS,
+        default=PENDING,
+    )
+    disclose_result = models.BooleanField(
+        default=False,
+    )
 
-    topic_preference = models.ForeignKey(ProjectTopic, related_name='applications')
-    essay_topic = models.ForeignKey(EssayTopic, related_name='applications')
-    essay_text = models.TextField(blank=True)
+    topic_preference = models.ForeignKey(
+        ProjectTopic,
+        related_name='applications',
+    )
+    essay_topic = models.ForeignKey(
+        EssayTopic,
+        related_name='applications',
+    )
+    essay_text = models.TextField(
+        blank=True,
+    )
 
-    group = models.ForeignKey(Group, related_name='applications', blank=True, null=True)
-    visa_letter = models.BooleanField(default=False)
-    financial_aid = models.BooleanField(default=False)
-    previous_participation = models.BooleanField(default=False)
+    group = models.ForeignKey(
+        to=Group,
+        related_name='applications',
+        blank=True,
+        null=True,
+    )
+    visa_letter = models.BooleanField(
+        default=False,
+    )
+    financial_aid = models.BooleanField(
+        default=False,
+    )
+    previous_participation = models.BooleanField(
+        default=False,
+    )
 
-    last_update = models.DateTimeField(auto_now=True)
+    last_update = models.DateTimeField(
+        auto_now=True,
+    )
 
     def __str__(self):
         return '{} ({})'.format(self.user.get_full_name(), self.stage)
@@ -63,13 +98,37 @@ class Application(models.Model):
 
 
 class Order(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
-    preferred_currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, default='KRW')
-    paid_amount = MoneyField(max_digits=7, decimal_places=0, default=0, default_currency='KRW')
+    user = models.OneToOneField(
+        to=User,
+        on_delete=models.CASCADE,
+        unique=True,
+    )
+    preferred_currency = models.CharField(
+        max_length=3,
+        choices=CURRENCY_CHOICES,
+        default='KRW',
+    )
+    paid_amount = MoneyField(
+        max_digits=7,
+        decimal_places=0,
+        default=0,
+        default_currency='KRW',
+    )
 
-    accommodation = models.ForeignKey(AccommodationOption, related_name='orders')
-    dietary_preferences = models.CharField(max_length=100, blank=True, null=True)
-    options = models.ManyToManyField(Price, related_name='orders', blank=True)
+    accommodation = models.ForeignKey(
+        to=AccommodationOption,
+        related_name='orders',
+    )
+    dietary_preferences = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+    options = models.ManyToManyField(
+        to=Price,
+        related_name='orders',
+        blank=True,
+    )
 
     def __str__(self):
         return self.user.get_full_name()
@@ -92,14 +151,15 @@ class Order(models.Model):
 
     def breakfast_option(self):
         return self.option_checker('breakfast')
-    breakfast_option.boolean = True
 
     def pre_option(self):
         return self.option_checker('pre')
-    pre_option.boolean = True
 
     def post_option(self):
         return self.option_checker('post')
+
+    breakfast_option.boolean = True
+    pre_option.boolean = True
     post_option.boolean = True
 
     def payment_status(self):
