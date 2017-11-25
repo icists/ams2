@@ -65,6 +65,8 @@ PREREQ_APPS = ALL_AUTH_APPS + [
     'django_countries',
     'solo',
     'djmoney',
+    'rest_framework',
+    'rest_framework_swagger',
 ]
 
 PROJECT_APPS = [
