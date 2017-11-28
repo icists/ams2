@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^swagger/', schema_view),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^accounts/', include('accounts.urls')),
 ]
 
 if settings.DEBUG:
