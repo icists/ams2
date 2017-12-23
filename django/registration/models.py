@@ -92,9 +92,17 @@ class Application(models.Model):
         return '{} ({})'.format(self.user.get_full_name(), self.stage)
 
     def group_discount(self):
+        if not self.group:
+            return False
         min_group_size = Configuration.objects.get().min_group_size
         accepted_peers = self.group.applications.filter(screening_result=ACCEPTED)
         return accepted_peers.count() >= min_group_size
+
+    def get_screening_result(self):
+        if self.disclose_result:
+            return self.screening_result
+        else:
+            return PENDING
 
 
 class Order(models.Model):

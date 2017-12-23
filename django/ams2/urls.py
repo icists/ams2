@@ -24,10 +24,11 @@ schema_view = get_swagger_view(title='ICISTS AMS API')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^swagger/', schema_view),
+    url(r'^docs/', schema_view),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^policy/', include('policy.urls')),
+    url(r'^registration/', include('registration.urls')),
 ]
 
 if settings.DEBUG:
