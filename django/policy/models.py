@@ -40,9 +40,6 @@ class Stage(SingletonModel):
         default=BEFORE_EARLY,
     )
 
-    def get_current_stage(self):
-        return self.current_stage
-
     class Meta:
         verbose_name = 'application stage'
 

@@ -16,15 +16,19 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.staticfiles import views
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from rest_framework_swagger.views import get_swagger_view
 
+schema_view = get_swagger_view(title='ICISTS AMS API')
 
 urlpatterns = [
-    url(r'^$', include('accounts.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^docs/', schema_view),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^accounts/', include('accounts.urls')),
+    url(r'^policy/', include('policy.urls')),
+    url(r'^registration/', include('registration.urls')),
 ]
 
 if settings.DEBUG:
@@ -33,4 +37,3 @@ if settings.DEBUG:
     ]
 
 urlpatterns += staticfiles_urlpatterns()
-
