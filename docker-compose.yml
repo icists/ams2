@@ -2,6 +2,7 @@ version: '3'
 
 services:
   django:
+    container_name: api
     env_file:
       - environments/mysql.env
       - environments/oauth.env
@@ -24,6 +25,7 @@ services:
       - mysql
 
   mysql:
+    container_name: mysql
     env_file:
       - environments/mysql.env
       - environments/secret.env
@@ -35,17 +37,37 @@ services:
       - "3306"
 
   nginx:
+    container_name: nginx
     restart: always
     build: ./nginx/
     ports:
       - "80:80"
       - "443:443"
     volumes:
+      - ./nginx/certs:/etc/certs
+      - ./nginx/sites-enabled:/etc/nginx/sites-enabled
       - static:/static
     links:
       - django:django
+      - web-vue:web-vue
 
+  web-vue:
+    container_name: web-vue
+    restart: always
+    build: ./web/
+    command: npm start
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    environment:
+      PORT: 8080
+      HOST: dev.icists.org
+    volumes:
+      - ./web:/code
+      - node_modules:/code/node_modules
 
 volumes:
   mysql-persistent-volume:
   static:
+  node_modules:

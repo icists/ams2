@@ -1,1 +1,1 @@
-docker exec -i -t ams2_mysql_1 /bin/bash
+docker exec -i -t mysql /bin/bash
