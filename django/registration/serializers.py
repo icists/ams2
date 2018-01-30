@@ -3,9 +3,11 @@ from rest_framework.serializers import ModelSerializer
 
 from .models import Application, Order
 
-
 class SimpleApplicationSerializer(ModelSerializer):
-    screening_result = serializers.CharField(source='get_screening_result')
+    screening_result = serializers.CharField(
+        source='get_screening_result',
+        read_only=True
+    )
 
     class Meta:
         model = Application
@@ -13,11 +15,16 @@ class SimpleApplicationSerializer(ModelSerializer):
             'id',
             'stage',
             'screening_result',
+            'topic_preference',
+            'essay_topic'
         )
 
 
 class ApplicationSerializer(ModelSerializer):
-    screening_result = serializers.CharField(source='get_screening_result')
+    screening_result = serializers.CharField(
+        source='get_screening_result',
+        read_only=True
+    )
 
     class Meta:
         model = Application
@@ -27,6 +34,18 @@ class ApplicationSerializer(ModelSerializer):
             'last_update',
         )
 
+class SimpleOrderSerializer(ModelSerializer):
+
+    class Meta:
+        model = Order
+        fields = (
+            'id',
+            'preferred_currency',
+            'paid_amount',
+            'accommodation',
+            'options',
+            'dietary_preferences',
+        )
 
 class OrderSerializer(ModelSerializer):
     accommodation = serializers.PrimaryKeyRelatedField(
