@@ -2,8 +2,10 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from .models import Application, Order
+from policy.models import AccommodationOption, Price
 
-class SimpleApplicationSerializer(ModelSerializer):
+
+class ApplicationSerializer(ModelSerializer):
     screening_result = serializers.CharField(
         source='get_screening_result',
         read_only=True
@@ -16,52 +18,39 @@ class SimpleApplicationSerializer(ModelSerializer):
             'stage',
             'screening_result',
             'topic_preference',
-            'essay_topic'
+            'essay_topic',
+            'essay_text',
+            'group',
+            'visa_letter',
+            'financial_aid',
+            'previous_participation',
         )
-
-
-class ApplicationSerializer(ModelSerializer):
-    screening_result = serializers.CharField(
-        source='get_screening_result',
-        read_only=True
-    )
-
-    class Meta:
-        model = Application
-        exclude = (
+        read_only_fields = (
             'id',
-            'user',
-            'last_update',
+            'stage',
         )
 
-class SimpleOrderSerializer(ModelSerializer):
-
-    class Meta:
-        model = Order
-        fields = (
-            'id',
-            'preferred_currency',
-            'paid_amount',
-            'accommodation',
-            'options',
-            'dietary_preferences',
-        )
 
 class OrderSerializer(ModelSerializer):
     accommodation = serializers.PrimaryKeyRelatedField(
-        read_only=True,
+        queryset=AccommodationOption.objects.all(),
     )
     options = serializers.PrimaryKeyRelatedField(
         many=True,
-        read_only=True,
+        queryset=Price.objects.all(),
     )
 
     class Meta:
         model = Order
         fields = (
+            'id',
             'preferred_currency',
             'paid_amount',
             'accommodation',
             'options',
             'dietary_preferences',
+        )
+        read_only_fields = (
+            'id',
+            'paid_amount',
         )
