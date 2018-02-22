@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.contrib.staticfiles import views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from rest_framework_swagger.views import get_swagger_view
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
 schema_view = get_swagger_view(title='ICISTS AMS API')
 
@@ -29,6 +30,8 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls')),
     url(r'^policy/', include('policy.urls')),
     url(r'^registration/', include('registration.urls')),
+    url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^api-token-refresh/', refresh_jwt_token),
 ]
 
 if settings.DEBUG:
