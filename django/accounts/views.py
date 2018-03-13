@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView, CreateAPIView
 
 from .models import School
 from .serializers import SchoolSerializer, UserSerializer
@@ -14,9 +14,15 @@ class SchoolList(ListAPIView):
             queryset = queryset.filter(name__icontains=query)
         return queryset.order_by('name')
 
-
 class UserView(RetrieveUpdateAPIView):
     serializer_class = UserSerializer
 
     def get_object(self):
         return self.request.user
+
+def jwt_response_payload_handler(token, user=None, request=None):
+    return {
+        'token': token,
+        'user': UserSerializer(user, context={'request': request}).data
+    }
+

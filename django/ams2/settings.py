@@ -69,6 +69,7 @@ PREREQ_APPS = ALL_AUTH_APPS + [
     'rest_framework',
     'rest_framework_swagger',
     'corsheaders',
+    'rest_auth',
 ]
 
 PROJECT_APPS = [
@@ -211,5 +212,17 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1),
     'JWT_ALLOW_REFRESH': True,
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'accounts.views.jwt_response_payload_handler',
 }
+
+REST_USE_JWT = True
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER':'accounts.serializers.UserSerializer'
+}
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.UserRegisterSerializer',
+}
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 

@@ -18,6 +18,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.staticfiles import views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from rest_framework.documentation import include_docs_urls
 from rest_framework_swagger.views import get_swagger_view
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
@@ -26,12 +27,17 @@ schema_view = get_swagger_view(title='ICISTS AMS API')
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^docs/', schema_view),
-    url(r'^accounts/', include('allauth.urls')),
+    url(r'^rest_docs/', include_docs_urls(title='ICISTS AMS API')),
+
+    # url(r'^accounts/', include('allauth.urls')),
+    url(r'^accounts/', include('rest_auth.urls')),
+    url(r'^accounts/registration/', include('rest_auth.registration.urls')),
+    url(r'^accounts/token-auth/', obtain_jwt_token),
+    url(r'^accounts/token-refresh/', refresh_jwt_token),
+
     url(r'^accounts/', include('accounts.urls')),
     url(r'^policy/', include('policy.urls')),
     url(r'^registration/', include('registration.urls')),
-    url(r'^api-token-auth/', obtain_jwt_token),
-    url(r'^api-token-refresh/', refresh_jwt_token),
 ]
 
 if settings.DEBUG:
