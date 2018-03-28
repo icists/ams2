@@ -35,7 +35,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    '.icists.org'
+    '.icists.org',
+    '.dev-icists.org'
 ]
 
 # Application definition
