@@ -1,15 +1,35 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from .models import Application, Order
+from .models import Application, Order, Group
 from policy.models import AccommodationOption, Price
 
+from django.core.exceptions import ObjectDoesNotExist
+
+from django.utils.encoding import (
+    python_2_unicode_compatible, smart_text, uri_to_iri
+)
+
+class CreatableSlugRelatedField(serializers.SlugRelatedField):
+    def to_internal_value(self, data):
+        try:
+            return self.get_queryset().get_or_create(**{self.slug_field: data})[0]
+        except ObjectDoesNotExist:
+            self.fail('does_not_exist', slug_name=self.slug_field, value=smart_text(data))
+        except (TypeError, ValueError):
+            self.fail('invalid')
 
 class ApplicationSerializer(ModelSerializer):
     screening_result = serializers.CharField(
         source='get_screening_result',
         read_only=True
     )
+
+    group = CreatableSlugRelatedField(
+        slug_field='name',
+        queryset = Group.objects.all()
+    )
+
 
     class Meta:
         model = Application

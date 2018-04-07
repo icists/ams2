@@ -3,6 +3,8 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 
 from .models import Application, Order
 from .serializers import ApplicationSerializer, OrderSerializer
+import logging
+logger = logging.getLogger(__name__)
 
 
 class ApplicationList(ListCreateAPIView):
@@ -12,6 +14,7 @@ class ApplicationList(ListCreateAPIView):
         return Application.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
+        # logger.warning("* * * * * * * * * * * {}".format(self.request.group))
         serializer.save(user=self.request.user)
 
 
@@ -21,6 +24,11 @@ class ApplicationDetail(RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Application.objects.filter(user=self.request.user)
+
+    def perform_update(self, serializer):
+        # logger.warning("* * * * * * * * * * * {}".format(self.request.group))
+        instance = serializer.save()
+        # send_email_confirmation(user=self.request.user, modified=instance)
 
 
 class OrderList(ListCreateAPIView):
