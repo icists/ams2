@@ -173,7 +173,7 @@ class Order(models.Model):
     def payment_status(self):
         unpaid_amount = self.total_cost().amount - self.paid_amount.amount
         if unpaid_amount == 0:
-            return 'Clear'
+            return 'Paid'
         elif unpaid_amount > 0:
             unpaid = Money(unpaid_amount, self.preferred_currency)
             return 'Paid less ({})'.format(str(unpaid))
