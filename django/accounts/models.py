@@ -86,40 +86,18 @@ class User(AbstractBaseUser, PermissionsMixin):
             'unique': 'A user with that username already exists.',
         },
     )
-    first_name = models.CharField(
-        max_length=30,
-    )
-    last_name = models.CharField(
-        max_length=30,
-    )
-    birthday = models.DateField(
-        null=True,
-    )
-    nationality = CountryField(
-        null=True,
-    )
-    gender = models.CharField(
-        max_length=1,
-        choices=GENDER_CHOICES,
-        null=True,
-    )
-    phone_number = PhoneNumberField(
-        null=True,
-    )
-    school = models.ForeignKey(
-        to=School,
-        on_delete=models.PROTECT,
-        blank=True,
-        null=True,
-    )
-    major = models.CharField(max_length=100)
 
-    assigned_room = models.ForeignKey(
-        to=Room,
-        related_name='users',
-        blank=True,
-        null=True,
-    )
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+
+    birthday = models.DateField(null=True)
+    nationality = CountryField(null=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True)
+    phone_number = PhoneNumberField(null=True)
+    school = models.ForeignKey(School, models.PROTECT, blank=True, null=True)
+    major = models.CharField(max_length=100, blank=True)
+
+    assigned_room = models.ForeignKey(Room, related_name='users', blank=True, null=True)
 
     objects = UserManager()
 

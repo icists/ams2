@@ -23,10 +23,7 @@ SCREENING_RESULTS = [
 
 
 class Group(models.Model):
-    name = models.CharField(
-        max_length=50,
-        unique=True,
-    )
+    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
@@ -39,54 +36,30 @@ class Group(models.Model):
 
 
 class Application(models.Model):
-    user = models.ForeignKey(
-        to=User,
-        related_name='applications',
-    )
-    stage = models.CharField(
-        max_length=1,
-        choices=APP_STAGES,
-    )
+    user = models.ForeignKey(User, models.PROTECT, related_name='applications')
+    stage = models.CharField(max_length=1, choices=APP_STAGES)
     screening_result = models.CharField(
         max_length=1,
         choices=SCREENING_RESULTS,
         default=PENDING,
     )
-    disclose_result = models.BooleanField(
-        default=False,
-    )
+    disclose_result = models.BooleanField(default=False)
 
-    topic_preference = models.ForeignKey(
-        ProjectTopic,
-        related_name='applications',
-    )
-    essay_topic = models.ForeignKey(
-        EssayTopic,
-        related_name='applications',
-    )
-    essay_text = models.TextField(
-        blank=True,
-    )
+    topic_preference = models.ForeignKey(ProjectTopic, models.PROTECT, related_name='applications')
+    essay_topic = models.ForeignKey(EssayTopic, models.PROTECT, related_name='applications')
+    essay_text = models.TextField(blank=True)
 
     group = models.ForeignKey(
-        to=Group,
+        Group,
+        models.PROTECT,
         related_name='applications',
         blank=True,
         null=True,
     )
-    visa_letter = models.BooleanField(
-        default=False,
-    )
-    financial_aid = models.BooleanField(
-        default=False,
-    )
-    previous_participation = models.BooleanField(
-        default=False,
-    )
-
-    last_update = models.DateTimeField(
-        auto_now=True,
-    )
+    visa_letter = models.BooleanField(default=False)
+    financial_aid = models.BooleanField(default=False)
+    previous_participation = models.BooleanField(default=False)
+    last_update = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return '{} ({})'.format(self.user.get_full_name(), self.stage)
@@ -106,11 +79,7 @@ class Application(models.Model):
 
 
 class Order(models.Model):
-    user = models.OneToOneField(
-        to=User,
-        on_delete=models.CASCADE,
-        unique=True,
-    )
+    user = models.OneToOneField(User, models.CASCADE, unique=True)
     preferred_currency = models.CharField(
         max_length=3,
         choices=CURRENCY_CHOICES,
@@ -123,20 +92,9 @@ class Order(models.Model):
         default_currency='KRW',
     )
 
-    accommodation = models.ForeignKey(
-        to=AccommodationOption,
-        related_name='orders',
-    )
-    dietary_preferences = models.CharField(
-        max_length=100,
-        blank=True,
-        null=True,
-    )
-    options = models.ManyToManyField(
-        to=Price,
-        related_name='orders',
-        blank=True,
-    )
+    accommodation = models.ForeignKey(AccommodationOption, related_name='orders')
+    dietary_preferences = models.CharField(max_length=100, blank=True, null=True)
+    options = models.ManyToManyField(Price, related_name='orders', blank=True)
 
     def __str__(self):
         return self.user.get_full_name()
