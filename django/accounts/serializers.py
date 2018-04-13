@@ -1,14 +1,16 @@
-from rest_framework import serializers
+import logging
+
+from allauth.account.adapter import get_adapter
+from allauth.account.utils import setup_user_email
 from django_countries.serializer_fields import CountryField
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_auth.registration.serializers import RegisterSerializer
-from allauth.account.adapter import get_adapter
-from allauth.account.utils import setup_user_email
+from rest_framework import serializers
 
 from .models import School, User
-import logging
 
 logger = logging.getLogger(__name__)
+
 
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,6 +19,7 @@ class SchoolSerializer(serializers.ModelSerializer):
             'name',
             'country',
         )
+
 
 class UserRegisterSerializer(RegisterSerializer):
     first_name = serializers.CharField(required=True)

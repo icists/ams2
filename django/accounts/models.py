@@ -108,9 +108,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     school = models.ForeignKey(
         to=School,
+        on_delete=models.PROTECT,
         blank=True,
         null=True,
     )
+    major = models.CharField(max_length=100)
 
     assigned_room = models.ForeignKey(
         to=Room,
