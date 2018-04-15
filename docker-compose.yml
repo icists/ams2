@@ -9,6 +9,7 @@ services:
       - environments/settings.env
       - environments/secret.env
     restart: always
+    image: icists/ams2-api
     build:
       context: ./django
     entrypoint: /code/docker-entrypoint.sh
@@ -39,6 +40,7 @@ services:
   nginx:
     container_name: nginx
     restart: always
+    image: icists/ams2-nginx
     build: ./nginx/
     ports:
       - "80:80"
@@ -53,6 +55,7 @@ services:
       - web-vue:web-vue
 
   web-vue:
+    image: icists/ams2-web
     container_name: web-vue
     restart: always
     build: ./web/
