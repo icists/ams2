@@ -31,7 +31,7 @@ services:
       - environments/mysql.env
       - environments/secret.env
     restart: always
-    image: mysql:8.0
+    image: mysql:8.0.3
     volumes:
       - mysql-persistent-volume:/var/lib/mysql
     expose:
