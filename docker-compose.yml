@@ -50,6 +50,7 @@ services:
       - ./nginx/certs:/etc/certs
       - ./nginx/sites-enabled:/etc/nginx/sites-enabled
       - static:/static
+      - web-dist:/web-dist
     links:
       - django:django
       - web-vue:web-vue
@@ -57,17 +58,15 @@ services:
   web-vue:
     image: icists/ams2-web
     container_name: web-vue
-    restart: always
     build: ./web/
-    command: npm start
     environment:
       PORT: 8080
-      HOST: dev.icists.org
+      HOST: apply.dev-icists.org
     volumes:
       - ./web:/code
-      - node_modules:/code/node_modules
+      - web-dist:/code/dist
 
 volumes:
   mysql-persistent-volume:
   static:
-  node_modules:
+  web-dist:
