@@ -1,7 +1,8 @@
 from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
+from django_countries import countries
 
 from .models import School
-from .serializers import SchoolSerializer, UserSerializer
+from .serializers import SchoolSerializer, CountrySerializer, UserSerializer
 
 
 class SchoolList(ListAPIView):
@@ -13,6 +14,11 @@ class SchoolList(ListAPIView):
         if query is not None:
             queryset = queryset.filter(name__icontains=query)
         return queryset.order_by('name')[:50]
+
+
+class CountryList(ListAPIView):
+    serializer_class = CountrySerializer
+    queryset = [{'code': code, 'name': name} for code, name in list(countries)]
 
 
 class UserView(RetrieveUpdateAPIView):

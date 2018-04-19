@@ -22,6 +22,11 @@ class SchoolSerializer(serializers.ModelSerializer):
         )
 
 
+class CountrySerializer(serializers.Serializer):
+    code = serializers.CharField()
+    name = serializers.CharField()
+
+
 class UserRegisterSerializer(RegisterSerializer):
     first_name = serializers.CharField(required=True)
     last_name = serializers.CharField(required=True)
