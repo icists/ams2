@@ -12,7 +12,7 @@ class SchoolList(ListAPIView):
         query = self.request.query_params.get('query', None)
         if query is not None:
             queryset = queryset.filter(name__icontains=query)
-        return queryset.order_by('name')
+        return queryset.order_by('name')[:50]
 
 
 class UserView(RetrieveUpdateAPIView):

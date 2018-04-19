@@ -92,7 +92,7 @@ class Order(models.Model):
         default_currency='KRW',
     )
 
-    accommodation = models.ForeignKey(AccommodationOption, related_name='orders')
+    accommodation = models.ForeignKey(AccommodationOption, models.PROTECT, related_name='orders')
     dietary_preferences = models.CharField(max_length=100, blank=True, null=True)
     options = models.ManyToManyField(Price, related_name='orders', blank=True)
 

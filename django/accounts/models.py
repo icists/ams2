@@ -10,7 +10,7 @@ from policy.models import Room
 
 class School(models.Model):
     name = models.CharField(
-        max_length=100,
+        max_length=200,
     )
     country = CountryField()
 
@@ -97,7 +97,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     school = models.ForeignKey(School, models.PROTECT, blank=True, null=True)
     major = models.CharField(max_length=100, blank=True)
 
-    assigned_room = models.ForeignKey(Room, related_name='users', blank=True, null=True)
+    assigned_room = models.ForeignKey(Room, models.PROTECT, related_name='users', blank=True, null=True)
 
     objects = UserManager()
 

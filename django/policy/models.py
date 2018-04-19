@@ -97,9 +97,7 @@ class Room(models.Model):
         ('O', 'Others'),
     ]
 
-    type = models.ForeignKey(
-        to=AccommodationOption,
-    )
+    type = models.ForeignKey(AccommodationOption, models.PROTECT)
     number = models.PositiveSmallIntegerField()
     gender = models.CharField(
         max_length=1,
