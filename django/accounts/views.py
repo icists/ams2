@@ -1,5 +1,6 @@
-from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
 from django_countries import countries
+from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from .models import School
 from .serializers import SchoolSerializer, CountrySerializer, UserSerializer
@@ -7,6 +8,7 @@ from .serializers import SchoolSerializer, CountrySerializer, UserSerializer
 
 class SchoolList(ListAPIView):
     serializer_class = SchoolSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         queryset = School.objects.all()
@@ -18,6 +20,7 @@ class SchoolList(ListAPIView):
 
 class CountryList(ListAPIView):
     serializer_class = CountrySerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = [{'code': code, 'name': name} for code, name in list(countries)]
 
 

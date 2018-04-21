@@ -15,11 +15,7 @@ logger = logging.getLogger(__name__)
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = School
-        fields = (
-            'id',
-            'name',
-            'country',
-        )
+        fields = ('id', 'name')
 
 
 class CountrySerializer(serializers.Serializer):
@@ -70,6 +66,8 @@ class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     id = serializers.IntegerField(read_only=True)
     nationality = CountryField(required=True)
+    nationality_text = serializers.CharField(source='nationality.name', read_only=True)
+    school_text = serializers.CharField(source='school.name', read_only=True)
 
     def create(self, validated_data):
         User.objects.create_user(validated_data['email'], validated_data['password'], validated_data)
