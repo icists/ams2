@@ -5,6 +5,7 @@ from allauth.account.utils import setup_user_email
 from django_countries.serializer_fields import CountryField
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_auth.registration.serializers import RegisterSerializer
+from rest_auth.serializers import UserDetailsSerializer
 from rest_framework import serializers
 
 from .models import School, User
@@ -63,9 +64,8 @@ class UserRegisterSerializer(RegisterSerializer):
     class Meta:
         model = User
 
-
-class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+class UserSerializer(UserDetailsSerializer):
+    email = serializers.CharField(read_only=True)
     id = serializers.IntegerField(read_only=True)
     nationality = CountryField(required=True)
     nationality_text = serializers.CharField(source='nationality.name', read_only=True)
@@ -77,6 +77,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = (
+            'password',
             'groups',
             'date_joined',
             'user_permissions',

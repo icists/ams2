@@ -18,6 +18,7 @@ services:
       - static:/static
     environment:
       DATABASE_URL: 'mysql'
+      DEBUG: 'True'
     ports:
       - "8000:8000"
     expose:
@@ -61,9 +62,11 @@ services:
     image: icists/ams2-web
     container_name: web-vue
     build: ./web/
+    command: npm start
     environment:
       PORT: 8080
       HOST: apply.dev-icists.org
+      API_HOST: http://api.dev-icists.org
     volumes:
       - ./web:/code
       - web-dist:/code/dist

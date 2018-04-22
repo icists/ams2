@@ -1,8 +1,12 @@
 version: '3'
 
 services:
+  django:
+    environment:
+      DEBUG: 'False'
   web-vue:
     command: bash /code/entrypoint.sh
     environment:
       HOST: apply.icists.org
+      API_HOST: https://api.icists.org
 

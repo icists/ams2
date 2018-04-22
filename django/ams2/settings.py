@@ -31,7 +31,7 @@ EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 SECRET_KEY = '$ddcywfrdw451xk3#4f4$(c&$m)b4r+iga#pa=0r56s-*yip44'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', False)
 
 ALLOWED_HOSTS = [
     'localhost',
