@@ -31,6 +31,7 @@ class UserRegisterSerializer(RegisterSerializer):
     phone_number = PhoneNumberField(required=True)
     school = serializers.PrimaryKeyRelatedField(queryset=School.objects.all(), required=True)
     gender = serializers.CharField(required=True)
+    major = serializers.CharField(required=True)
 
     def get_cleaned_data(self):
         logger.warning("data : {}".format(self.validated_data))
@@ -52,6 +53,7 @@ class UserRegisterSerializer(RegisterSerializer):
         user.phone_number = self.validated_data.get('phone_number', '')
         user.school = self.validated_data.get('school', '')
         user.gender = self.validated_data.get('gender', '')
+        user.major = self.validated_data.get('major', '')
 
         adapter.save_user(request, user, self)
         self.custom_signup(request, user)
