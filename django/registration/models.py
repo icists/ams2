@@ -103,8 +103,10 @@ class Order(models.Model):
         cost = Money(0, self.preferred_currency)
 
         if self.preferred_currency == 'KRW':
+            cost.amount += self.accommodation.price_krw.amount
             cost.amount += sum([option.price_krw.amount for option in self.options.all()])
         elif self.preferred_currency == 'USD':
+            cost.amount += self.accommodation.price_usd.amount
             cost.amount += sum([option.price_usd.amount for option in self.options.all()])
 
         return cost

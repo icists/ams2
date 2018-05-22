@@ -23,6 +23,7 @@ class PriceSerializer(ModelSerializer):
     class Meta:
         model = Price
         fields = (
+            'id',
             'code',
             'description',
             'price_krw',

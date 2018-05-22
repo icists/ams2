@@ -41,6 +41,7 @@ class ApplicationSerializer(ModelSerializer):
             'visa_letter',
             'financial_aid',
             'previous_participation',
+            'group_discount'
         )
         read_only_fields = (
             'id',
