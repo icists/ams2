@@ -34,6 +34,7 @@ class AccommodationOptionSerializer(ModelSerializer):
     class Meta:
         model = AccommodationOption
         fields = (
+            'id',
             'code',
             'description',
             'price_krw',
