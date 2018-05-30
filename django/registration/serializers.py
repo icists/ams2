@@ -25,7 +25,9 @@ class ApplicationSerializer(ModelSerializer):
 
     group = CreatableSlugRelatedField(
         slug_field='name',
-        queryset=Group.objects.all()
+        queryset=Group.objects.all(),
+        required=False,
+        allow_null=True
     )
 
     class Meta:
