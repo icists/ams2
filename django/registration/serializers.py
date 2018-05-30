@@ -22,7 +22,6 @@ class ApplicationSerializer(ModelSerializer):
         source='get_screening_result',
         read_only=True
     )
-
     group = CreatableSlugRelatedField(
         slug_field='name',
         queryset=Group.objects.all(),
@@ -66,6 +65,7 @@ class OrderSerializer(ModelSerializer):
             'id',
             'preferred_currency',
             'paid_amount',
+            'payment_status',
             'accommodation',
             'options',
             'dietary_preferences',
