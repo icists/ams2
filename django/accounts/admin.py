@@ -1,11 +1,18 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
+from import_export.admin import ImportExportModelAdmin
+from import_export.resources import ModelResource
 
 from .models import User, School, UserGroup
 
 
+class UserResource(ModelResource):
+    class Meta:
+        model = User
+
+
 @admin.register(User)
-class UserAdmin(admin.ModelAdmin):
+class UserAdmin(ImportExportModelAdmin):
     list_display = (
         'get_full_name',
         'email',
@@ -18,6 +25,7 @@ class UserAdmin(admin.ModelAdmin):
         'nationality',
         'school',
     )
+    resource_class = UserResource
 
 
 @admin.register(School)

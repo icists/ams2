@@ -71,6 +71,7 @@ PREREQ_APPS = ALL_AUTH_APPS + [
     'rest_framework_swagger',
     'corsheaders',
     'rest_auth',
+    'import_export',
 ]
 
 PROJECT_APPS = [
