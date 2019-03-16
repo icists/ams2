@@ -27,4 +27,3 @@ ssh-into-mysql: ## docker-compose를 통해 실행 중일 때 shell로 mysql 컨
 
 deploy-local: ## Local에서 실행
 	docker-compose up -d --force-recreate
-

@@ -6,14 +6,12 @@ ICISTS Application Management System to submit and manage applications.
 
 ### Local
 
-Local 환경에서 실행 시 host 상에서의 code 변경이 바로 반영될 수 있도록 docker-compose.yml을 기반으로 실행해 주세요.
-
-`docker-compose up -f docker-compose.local.yml`
-
 로컬 개발에 필요한 command (shell 접근, migration 등)은 Makefile에 정의되어 있습니다. 
 project root에서 `make {command}`로 실행해 주세요.
 
 For more info: `make help`
+
+(Makefile을 참고해 주세요)
 
 ### 권한 발급
 
