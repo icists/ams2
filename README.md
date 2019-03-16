@@ -2,41 +2,31 @@
 
 ICISTS Application Management System to submit and manage applications.
 
-## Deployment (개발 가이드라인)
+## Production Deployment
 
-필요한 command는 `scripts` 디렉토리 내에 정의되어 있습니다.
+### Local
 
-`./scripts/deploy_docker.sh`
-: 최초 설치 시 image를 build하고 container를 실행 시킵니다.
+Local 환경에서 실행 시 host 상에서의 code 변경이 바로 반영될 수 있도록 docker-compose.yml을 기반으로 실행해 주세요.
 
-`./scripts/shell_docker.sh`
-: Container 실행 시 shell에 접속합니다.
+`docker-compose up -f docker-compose.local.yml`
 
-`./scripts/migrate.sh`
-: migration 실행.
+로컬 개발에 필요한 command (shell 접근, migration 등)은 Makefile에 정의되어 있습니다. 
+project root에서 `make {command}`로 실행해 주세요.
 
-`./scripts/stop_all_containers.sh`
-: Container 종료.
+For more info: `make help`
 
-##### 중요
-실행에 필요하지만 보안상 이 repository에 포함 시키지 않은 파일이 몇 개 존재합니다.
-아래 파일은 개발 환경 세팅하실 때 별도로 요청해 주세요.
- - `environments/secret.env`
- - `nginx/certs/`
+### 권한 발급
 
+secret.env 파일을 별도로 요청하세요.
 
-## Built With
-* [Alpine Linux](https://alpinelinux.org/) : The Operating System. v.3.6
-* [Docker](https://www.docker.com/) : v.17.09.0-ce
-* [Docker Compose](https://docs.docker.com/compose/) : v.3
-* [Python](https://www.python.org/) : v.3.6.3
-* [Django](https://docs.djangoproject.com/en/1.11/releases/1.11/) - v.1.11
-* [MySQL](https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-3.html) - v.8.0.3
+~~ICISTS account에 권한이 있을 경우 `./scripts/get_secret.sh` 을 통해 아래 파일을 받을 수 있습니다. (Set-up 예정)~~
+
+- `environments/secret.env`
 
 ## Authors
 
-* **Park Junwoo** - *Initial work & maintenance* - [zoonoo](https://github.com/zoonoo)
-* **Gunwoo Kim** - *Core Logic* - [gunwooterry](https://github.com/gunwooterry)
+- **Park Junwoo** - *Initial work & maintenance* - [zoonoo](https://github.com/zoonoo)
+- **Gunwoo Kim** - *Initial work & Core Logic* - [gunwooterry](https://github.com/gunwooterry)
 
 See also the list of [contributors](https://github.com/icists/ams2/contributors) who participated in this project.
 
